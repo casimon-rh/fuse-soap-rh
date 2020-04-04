@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+  xmlns:cxf="http://camel.apache.org/schema/cxf" 
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="
+    http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+    http://camel.apache.org/schema/cxf http://camel.apache.org/schema/cxf/camel-cxf.xsd
+    ">
+  <cxf:cxfEndpoint
+    id="Endpoint" address="/test-soap" loggingFeatureEnabled="true"
+    wsdlURL="classpath:wsdl/file.wsdl" serviceClass="com.procesar.service.TestService"/>
+
+  <camelContext id="camel" xmlns="http://camel.apache.org/schema/spring">
+    
+    <route id="soap-endpoint">
+      <from uri="cxf:bean:Endpoint"/>
+      <transform>
+        <simple>${body[0]}</simple>
+      </transform>
+    </route>
+
+  </camelContext>
+</beans>
